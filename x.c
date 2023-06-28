@@ -1852,7 +1852,12 @@ kpress(XEvent *ev)
 	} else {
 		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
 	}
-	/* 1. shortcuts */
+	if (IS_SET(MODE_KBDSELECT)) {
+		if (match(XK_NO_MOD, e->state) || (XK_Shift_L | XK_Shift_R) & e->state)
+			win.mode ^= trt_kbdselect(ksym, buf, len);
+		return;
+	}
+ /* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
 		if (ksym == bp->keysym && match(bp->mod, e->state)) {
 			bp->func(&(bp->arg));
@@ -2027,6 +2032,14 @@ usage(void)
 	    " [-n name] [-o file]\n"
 	    "          [-T title] [-t title] [-w windowid] -l line"
 	    " [stty_args ...]\n", argv0, argv0);
+}
+
+void toggle_winmode(int flag) {
+	win.mode ^= flag;
+}
+
+void keyboard_select(const Arg *dummy) {
+	win.mode ^= trt_kbdselect(-1, NULL, 0);
 }
 
 int
