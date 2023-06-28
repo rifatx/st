@@ -182,6 +182,8 @@ static MouseShortcut mshortcuts[] = {
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
 	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
 	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
+	{ ShiftMask,            Button4, kscrollup,      {.i = 1} },
+	{ ShiftMask,            Button5, kscrolldown,    {.i = 1} },
 };
 
 /* Internal keyboard shortcuts. */
@@ -203,7 +205,9 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
 	{ TERMMOD,              XK_Escape,      keyboard_select,{.i =  0} },
-};
+	{ ControlMask,          XK_Page_Up,     kscrollup,      {.i = -1} },
+	{ ControlMask,          XK_Page_Down,   kscrolldown,    {.i = -1} },
+ };
 
 /*
  * Special keys (change & recompile st.info accordingly)
